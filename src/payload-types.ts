@@ -489,7 +489,7 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  */
 export interface Header {
   id: number;
-  navLinks?:
+  navItems?:
     | {
         label: string;
         url: string;
@@ -534,7 +534,7 @@ export interface Footer {
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
-  navLinks?:
+  navItems?:
     | T
     | {
         label?: T;

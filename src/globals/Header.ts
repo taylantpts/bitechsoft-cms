@@ -1,19 +1,29 @@
-import type { GlobalConfig } from 'payload'
+import { GlobalConfig } from 'payload/types'
 
 export const Header: GlobalConfig = {
   slug: 'header',
-  label: 'Header',
+  label: 'Üst Menü (Header)',
   access: {
-    read: () => true,
+    read: () => true, // Sitenin ön yüzü bu menüyü okuyabilsin
   },
   fields: [
     {
-      name: 'navLinks',
-      type: 'array',
+      name: 'navItems',
       label: 'Menü Linkleri',
+      type: 'array',
       fields: [
-        { name: 'label', type: 'text', required: true, label: 'Etiket' },
-        { name: 'url', type: 'text', required: true, label: 'URL' },
+        {
+          name: 'label',
+          label: 'Menü Başlığı (Örn: Hakkımızda)',
+          type: 'text',
+          required: true,
+        },
+        {
+          name: 'url',
+          label: 'Sayfa URLsi (Örn: /hakkimizda)',
+          type: 'text',
+          required: true,
+        },
       ],
     },
   ],

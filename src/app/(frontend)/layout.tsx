@@ -1,5 +1,5 @@
 import { Footer } from '@/components/Footer'
-import { Navbar } from '@/components/Navbar'
+import Navbar from '@/components/Navbar'
 import { SmoothScroll } from '@/components/SmoothScroll'
 import type { FooterData, HeaderData } from '@/types/frontend'
 import { getPayloadHMR } from '@payloadcms/next/utilities'
@@ -45,7 +45,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     <html lang="tr">
       <body className="min-h-screen bg-neutral-950">
         <SmoothScroll>
-          <Navbar data={header} />
+          <Navbar/>
           {children}
           <Footer data={footer} />
         </SmoothScroll>

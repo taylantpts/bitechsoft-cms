@@ -1,44 +1,46 @@
-import type { HeaderData } from '@/types/frontend'
-import Link from 'next/link'
+import Link from 'next/link';
+import { getPayload } from 'payload';
+import config from '@payload-config';
 
-const fallbackLinks = [
-  { label: 'Ana Sayfa', url: '/' },
-  { label: 'Hizmetlerimiz', url: '/#services' },
-  { label: 'İletişim', url: '/#iletisim' },
-]
-
-type NavbarProps = {
-  data?: HeaderData | null
-}
-
-export function Navbar({ data }: NavbarProps) {
-  const menuLinks = data?.navLinks?.length ? data.navLinks : fallbackLinks
+export default async function Navbar() {
+  // Payload veritabanına bağlanıp Header (Üst Menü) verilerini çekiyoruz
+  const payload = await getPayload({ config });
+  const header = await payload.findGlobal({ slug: 'header' });
+  
+  // Eğer panelden link girilmemişse hata vermemesi için boş dizi oluşturuyoruz
+  const navItems = header?.navItems || [];
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 bg-neutral-950/80 backdrop-blur-md">
-      <nav className="mx-auto flex max-w-7xl items-center gap-8 px-6 py-4">
-        <div className="flex shrink-0 items-center">
-          <Link
-            href="/"
-            className="text-lg font-semibold tracking-wide text-white transition-colors hover:text-emerald-400"
+    <nav className="fixed w-full z-50 bg-neutral-950/80 backdrop-blur-md border-b border-neutral-800 transition-all">
+      <div className="container mx-auto px-4 h-20 flex items-center justify-between">
+        
+        {/* Logo Alanı */}
+        <Link href="/" className="text-2xl font-bold text-white tracking-tighter">
+          BITECH<span className="text-emerald-500">SOFT</span>
+        </Link>
+
+        {/* Dinamik Menü Linkleri (Panelden Gelenler) */}
+        <div className="hidden md:flex gap-8 items-center">
+          {navItems.map((item, index) => (
+            <Link 
+              key={index} 
+              href={item.url} 
+              className="text-neutral-300 hover:text-emerald-500 transition-colors text-sm font-medium"
+            >
+              {item.label}
+            </Link>
+          ))}
+          
+          {/* Harekete Geçirici Sabit Buton */}
+          <Link 
+            href="/iletisim" 
+            className="px-5 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-black font-semibold rounded-lg transition-all"
           >
-            BITECH
+            Bize Ulaşın
           </Link>
         </div>
 
-        <ul className="flex flex-1 flex-wrap items-center justify-center gap-x-6 gap-y-2">
-          {menuLinks.map((link) => (
-            <li key={link.id ?? link.url}>
-              <Link
-                href={link.url}
-                className="text-sm text-neutral-300 transition-colors hover:text-emerald-400"
-              >
-                {link.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
-    </header>
-  )
+      </div>
+    </nav>
+  );
 }

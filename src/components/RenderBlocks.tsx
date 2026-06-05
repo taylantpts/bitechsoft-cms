@@ -30,22 +30,24 @@ export function RenderBlocks({ layout }: RenderBlocksProps) {
         const key = block.id ?? index
 
         if (block.blockType === 'features') {
+          const featuresBlock = block as Extract<LayoutBlock, { blockType: 'features' }>
           return (
             <FeaturesBlockView
               key={key}
-              title={block.title}
-              subtitle={block.subtitle}
-              cards={block.cards}
+              title={featuresBlock.title}
+              subtitle={featuresBlock.subtitle}
+              cards={featuresBlock.cards}
             />
           )
         }
 
         if (block.blockType === 'servicesSlider') {
+          const sliderBlock = block as Extract<LayoutBlock, { blockType: 'servicesSlider' }>
           return (
             <ServicesSliderBlockView
               key={key}
-              title={block.title}
-              services={block.services as Parameters<typeof ServicesSliderBlockView>[0]['services']}
+              title={sliderBlock.title}
+              services={sliderBlock.services as Parameters<typeof ServicesSliderBlockView>[0]['services']}
             />
           )
         }

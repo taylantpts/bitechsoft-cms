@@ -19,6 +19,10 @@ const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
+  // Üretim URL'i — admin panel ve API için gerekli
+  serverURL: process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000',
+  // CORS — aynı origin olduğu için kısıtlı, production'da domain eklenebilir
+  cors: [process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'],
   admin: {
     user: Users.slug,
     importMap: {
@@ -40,3 +44,4 @@ export default buildConfig({
   sharp,
   plugins: [],
 })
+

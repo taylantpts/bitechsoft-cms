@@ -6,7 +6,16 @@ type FooterProps = {
 }
 
 export function Footer({ data }: FooterProps) {
-  if (!data) return null
+  // CMS verisi yoksa minimal fallback göster, tamamen kaybolma
+  if (!data) {
+    return (
+      <footer className="border-t border-white/10 bg-neutral-950 px-6 py-8 text-center">
+        <p className="text-sm text-neutral-600">
+          © {new Date().getFullYear()} Bitechsoft. Tüm hakları saklıdır.
+        </p>
+      </footer>
+    )
+  }
 
   return (
     <footer className="border-t border-white/10 bg-neutral-950 px-6 py-16">

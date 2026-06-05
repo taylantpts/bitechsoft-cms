@@ -2,7 +2,6 @@ import ScrollAnimation from '@/components/ScrollAnimation'
 import { HeroSection } from '@/components/sections/HeroSection'
 import { PortfolioSection } from '@/components/sections/PortfolioSection'
 import { ServicesSection } from '@/components/sections/ServicesSection'
-// getFrameSequence importu silindi çünkü ScrollAnimation işi içeride kendi çözüyor
 import { getMediaUrl } from '@/lib/media-url'
 import type { PortfolioCard, ServiceCard } from '@/types/frontend'
 import { getPayloadHMR } from '@payloadcms/next/utilities'
@@ -22,6 +21,7 @@ export default async function HomePage() {
       payload.find({
         collection: 'services',
         pagination: false,
+        depth: 1,           // image alanını populate et
         sort: 'createdAt',
         overrideAccess: false,
       }),
@@ -39,6 +39,15 @@ export default async function HomePage() {
       baslik: service.baslik,
       ikon: service.ikon,
       aciklama: service.aciklama,
+      imageUrl: getMediaUrl(service.image),
+      popupDetay: service.popupDetay
+        ? {
+            kisaOzet:      service.popupDetay.kisaOzet      ?? null,
+            ozellikler:    service.popupDetay.ozellikler    ?? null,
+            istatistik:    service.popupDetay.istatistik    ?? null,
+            istatistikAlt: service.popupDetay.istatistikAlt ?? null,
+          }
+        : null,
     }))
 
     portfolioCards = portfolioDocs.map((item) => ({
@@ -54,18 +63,24 @@ export default async function HomePage() {
 
   return (
     <>
+      {/*
+        "Sticky Overlay" mimarisi:
+        HeroSection normal akışta, ScrollAnimation -mt-screen ile
+        bir ekran yüksekliği geriye çekilerek HeroSection'ın arkasında başlar.
+        Hero erirken canvas pürüzsüzce görünür — Apple / Vercel geçiş hissi.
+      */}
       <HeroSection />
+      <div className="-mt-[100vh]">
+        <ScrollAnimation />
+      </div>
       
-      {/* Prop kaldırıldı, bileşen pürüzsüzce doğrudan çalıştırıldı */}
-      <ScrollAnimation />
-      
-      {databaseUnavailable ? (
+      {databaseUnavailable && (
         <section className="bg-neutral-950 px-6 py-16 text-center">
           <p className="mx-auto max-w-xl text-lg text-neutral-400">
             İçerikler Yükleniyor veya Veritabanı Bekleniyor
           </p>
         </section>
-      ) : null}
+      )}
       <ServicesSection services={serviceCards} />
       <PortfolioSection items={portfolioCards} />
     </>

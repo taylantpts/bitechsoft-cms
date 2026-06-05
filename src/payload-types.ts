@@ -182,11 +182,37 @@ export interface Service {
   id: number;
   baslik: string;
   /**
-   * Lucide ikon adı (örn: Code, Rocket, Shield)
+   * Lucide ikon adı (örn: Code, Rocket, Shield, Monitor, Cloud)
    */
   ikon: string;
   aciklama: string;
   image?: (number | null) | Media;
+  /**
+   * Kullanıcı kartta hover yaptığında açılan popup bölümünün içeriği. Tüm alanlar isteğe bağlıdır.
+   */
+  popupDetay?: {
+    /**
+     * Popup başlığının altında çıkacak tek cümlelik özet.
+     */
+    kisaOzet?: string | null;
+    /**
+     * Madde madde listelenecek hizmet özellikleri.
+     */
+    ozellikler?:
+      | {
+          madde: string;
+          id?: string | null;
+        }[]
+      | null;
+    /**
+     * Örn: "%99.9 Uptime" veya "7/24 Destek". Popup'un alt köşesinde büyük punto ile çıkar.
+     */
+    istatistik?: string | null;
+    /**
+     * İstatistik numarasının altında küçük açıklama. Örn: "Kesintisiz Hizmet Garantisi".
+     */
+    istatistikAlt?: string | null;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -384,6 +410,19 @@ export interface ServicesSelect<T extends boolean = true> {
   ikon?: T;
   aciklama?: T;
   image?: T;
+  popupDetay?:
+    | T
+    | {
+        kisaOzet?: T;
+        ozellikler?:
+          | T
+          | {
+              madde?: T;
+              id?: T;
+            };
+        istatistik?: T;
+        istatistikAlt?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }

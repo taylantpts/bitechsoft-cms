@@ -5,7 +5,7 @@ import type { FooterData, HeaderData } from '@/types/frontend'
 import { getPayloadHMR } from '@payloadcms/next/utilities'
 import config from '@payload-config'
 import type { Metadata } from 'next'
-import React from 'react'
+import type { ReactNode } from 'react'
 
 import '../globals.css'
 
@@ -26,7 +26,7 @@ async function getSiteGlobals(): Promise<{
       payload.findGlobal({ slug: 'footer', depth: 0, overrideAccess: false }),
     ])
     return {
-      header: { navLinks: header.navLinks ?? null },
+      header: { navLinks: header.navItems ?? null },
       footer: {
         copyright: footer.copyright,
         socialLinks: footer.socialLinks ?? null,
@@ -38,14 +38,14 @@ async function getSiteGlobals(): Promise<{
   }
 }
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: ReactNode }) {
   const { header, footer } = await getSiteGlobals()
 
   return (
     <html lang="tr">
       <body className="min-h-screen bg-neutral-950">
         <SmoothScroll>
-          <Navbar/>
+          <Navbar navItems={header?.navLinks ?? null} />
           {children}
           <Footer data={footer} />
         </SmoothScroll>

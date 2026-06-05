@@ -1,10 +1,19 @@
 /** Client-safe props — no Payload server imports. */
 
+export type ServicePopupDetay = {
+  kisaOzet?: string | null
+  ozellikler?: { madde: string }[] | null
+  istatistik?: string | null
+  istatistikAlt?: string | null
+}
+
 export type ServiceCard = {
   id: number
   baslik: string
   ikon: string
   aciklama: string
+  imageUrl: string | { url?: string | null } | null
+  popupDetay?: ServicePopupDetay | null
 }
 
 export type PortfolioCard = {

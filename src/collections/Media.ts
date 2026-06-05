@@ -12,5 +12,11 @@ export const Media: CollectionConfig = {
       required: true,
     },
   ],
-  upload: true,
+  upload: {
+    // Sadece güvenli görsel formatlarına izin ver (SVG intentionally excluded — XSS riski)
+    mimeTypes: ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/avif'],
+    // Maksimum 10MB dosya boyutu
+    staticDir: 'media',
+  },
 }
+

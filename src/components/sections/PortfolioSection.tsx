@@ -12,7 +12,7 @@ type PortfolioSectionProps = {
 
 export function PortfolioSection({ items }: PortfolioSectionProps) {
   return (
-    <section id="portfolio" className="bg-neutral-950 px-6 py-24 pb-32">
+    <section id="portfolio" className="bg-neutral-950 px-6 pt-24 pb-32">
       <div className="mx-auto max-w-6xl">
         <motion.div
           initial={{ opacity: 0, y: 24 }}

@@ -1,6 +1,8 @@
+import ScrollAnimation from '@/components/ScrollAnimation'
 import { HeroSection } from '@/components/sections/HeroSection'
 import { PortfolioSection } from '@/components/sections/PortfolioSection'
 import { ServicesSection } from '@/components/sections/ServicesSection'
+// getFrameSequence importu silindi çünkü ScrollAnimation işi içeride kendi çözüyor
 import { getMediaUrl } from '@/lib/media-url'
 import type { PortfolioCard, ServiceCard } from '@/types/frontend'
 import { getPayloadHMR } from '@payloadcms/next/utilities'
@@ -53,6 +55,10 @@ export default async function HomePage() {
   return (
     <>
       <HeroSection />
+      
+      {/* Prop kaldırıldı, bileşen pürüzsüzce doğrudan çalıştırıldı */}
+      <ScrollAnimation />
+      
       {databaseUnavailable ? (
         <section className="bg-neutral-950 px-6 py-16 text-center">
           <p className="mx-auto max-w-xl text-lg text-neutral-400">
